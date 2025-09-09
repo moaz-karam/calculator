@@ -8,7 +8,7 @@ const n1 = 0;
 const n2 = 1;
 
 let number1 = "0";
-let number2 = "0";
+let number2 = "";
 
 let numbers = [number1, number2];
 let currentN = 0;
@@ -82,14 +82,18 @@ opsClass.forEach(item => {
 
     item.addEventListener("click", () => {
 
+    
+
         if (currentN == n1) {
             setCurrentN(n2);
         }
         else {
-            numbers[n1] = operate(operation, parseFloat(numbers[n1])
-                                            , parseFloat(numbers[n2])) + "";
-            putToScreen(numbers[n1]);
-            numbers[n2] = "0";
+            if (numbers[n2] != "") {
+                numbers[n1] = operate(operation, parseFloat(numbers[n1])
+                                                , parseFloat(numbers[n2])) + "";
+            }
+            putToScreen(parseFloat(numbers[n1]));
+            numbers[n2] = "";
         }
         addToScreen(item.textContent);
         operation = item.getAttribute("id");
@@ -100,11 +104,14 @@ opsClass.forEach(item => {
 const buttonEqual = document.querySelector("#equal");
 buttonEqual.addEventListener("click", () => {
 
-    let temp = operate(operation, parseFloat(numbers[n1]) , parseFloat(numbers[n2]));
+    if (numbers[n2] != "") {
 
-    numbers[n1] = parseFloat(temp.toFixed(4)) + "";
-    putToScreen(numbers[n1]);
-    numbers[n2] = "0";
+        let temp = operate(operation, parseFloat(numbers[n1]) , parseFloat(numbers[n2]));
+        numbers[n1] = temp.toFixed(4) + "";
+    }
+    
+    putToScreen(parseFloat(numbers[n1]));
+    numbers[n2] = "";
     setCurrentN(n1);
     floating = false;
 })
@@ -112,7 +119,7 @@ buttonEqual.addEventListener("click", () => {
 const buttonAC = document.querySelector("#AC");
 buttonAC.addEventListener("click", () => {
     setCurrentN(n1);
-    numbers[n1] = "";
+    numbers[n1] = "0";
     numbers[n2] = "";
 
     putToScreen("0");
